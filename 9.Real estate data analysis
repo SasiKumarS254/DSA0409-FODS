@@ -1,0 +1,19 @@
+import pandas as pd
+
+df = pd.DataFrame({
+    'id': [1, 2, 3, 4, 5],
+    'location': ['Chennai', 'Chennai', 'Bangalore', 'Bangalore', 'Hyderabad'],
+    'beds': [3, 5, 4, 6, 2],
+    'sqft': [1200, 2500, 1800, 3000, 900],
+    'price': [7500000, 12500000, 9500000, 14500000, 5000000]
+})
+
+avg_price = df.groupby('location')['price'].mean().round(2)
+big_beds = df[df['beds'] > 4].shape[0]
+largest = df.loc[df['sqft'].idxmax()]
+df["price_per_sqft"] = (df["price"] / df["sqft"]).round(2)
+
+print("Avg Price by Location:\n", avg_price)
+print("\nProperties with >4 Bedrooms:", big_beds)
+print("\nLargest Area Property:\n", largest)
+print("\nUpdated Dataset:\n", df)
