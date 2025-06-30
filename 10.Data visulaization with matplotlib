@@ -1,0 +1,24 @@
+import matplotlib.pyplot as plt
+
+months = ['Jan', 'Feb', 'Mar', 'Apr', 'May']
+sales = [20000, 25000, 22000, 27000, 30000]
+
+fig, axs = plt.subplots(1, 2, figsize=(12, 4))
+
+axs[0].plot(months, sales, marker='o', color='blue')
+axs[0].set_title("Sales Trend")
+axs[0].set_xlabel("Month")
+axs[0].set_ylabel("Sales ₹")
+axs[0].grid(True)
+
+axs[1].bar(months, sales, color='skyblue', edgecolor='black')
+axs[1].set_title("Sales Comparison")
+axs[1].set_xlabel("Month")
+axs[1].set_ylabel("Sales ₹")
+
+max_month = months[sales.index(max(sales))]
+min_month = months[sales.index(min(sales))]
+
+fig.suptitle(f"Monthly Sales Report | Max: {max_month} ₹{max(sales)}, Min: {min_month} ₹{min(sales)}", fontsize=10)
+plt.tight_layout()
+plt.show()
