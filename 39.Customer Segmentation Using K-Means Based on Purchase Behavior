@@ -1,0 +1,25 @@
+import pandas as pd, matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+
+df = pd.DataFrame({
+    'customer_id': range(1, 11),
+    'total_amount_spent': [200, 450, 300, 700, 150, 500, 650, 120, 350, 400],
+    'items_purchased': [2, 5, 3, 7, 1, 6, 6, 1, 4, 5]
+})
+
+X = StandardScaler().fit_transform(df[['total_amount_spent', 'items_purchased']])
+kmeans = KMeans(n_clusters=3, random_state=42)
+df['cluster'] = kmeans.fit_predict(X)
+centers = kmeans.cluster_centers_
+
+plt.figure(figsize=(8, 5))
+plt.scatter(df['total_amount_spent'], df['items_purchased'], c=df['cluster'], cmap='viridis', s=100, edgecolors='k')
+for i, (x, y) in enumerate(StandardScaler().inverse_transform(centers)):
+    plt.scatter(x, y, c='red', marker='X', s=200)
+    plt.text(x+5, y+0.1, f'Cluster {i}', fontsize=9, color='red')
+plt.xlabel('Total Amount Spent'), plt.ylabel('Items Purchased')
+plt.title('Customer Segments'), plt.grid(True), plt.tight_layout()
+plt.show()
+
+print(df)
