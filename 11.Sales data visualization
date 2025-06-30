@@ -1,0 +1,29 @@
+import matplotlib.pyplot as plt
+
+months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+sales = [2500, 2700, 3000, 2800, 3200, 3100,
+         3300, 3400, 3000, 2900, 3100, 3600]
+
+fig, axs = plt.subplots(3, 1, figsize=(10, 12))
+
+axs[0].plot(months, sales, marker='o', color='blue')
+axs[0].set_title('Line Plot')
+axs[0].grid(True)
+
+axs[1].scatter(months, sales, color='red')
+axs[1].set_title('Scatter Plot')
+axs[1].grid(True)
+
+axs[2].bar(months, sales, color='green')
+axs[2].set_title('Bar Plot')
+
+for ax in axs:
+    ax.set_xlabel('Month')
+    ax.set_ylabel('Sales')
+
+max_m, min_m = months[sales.index(max(sales))], months[sales.index(min(sales))]
+fig.suptitle(f"Sales Summary: Max = {max_m} ₹{max(sales)}, Min = {min_m} ₹{min(sales)}", fontsize=12)
+
+plt.tight_layout(rect=[0, 0, 1, 0.96])
+plt.show()
