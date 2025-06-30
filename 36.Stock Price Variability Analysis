@@ -1,0 +1,14 @@
+import pandas as pd, matplotlib.pyplot as plt
+
+df = pd.read_csv('stock_data.csv', parse_dates=['Date'])
+df.set_index('Date', inplace=True)
+
+stats = df['Close'].agg(['mean', 'std', 'max', 'min'])
+print(f"Mean: {stats['mean']:.2f} | Std Dev: {stats['std']:.2f} | Range: {(stats['max'] - stats['min']):.2f}")
+
+df['Close'].plot(figsize=(10,5), title='Stock Price Trend', ylabel='Price', xlabel='Date', color='navy')
+df['Close'].rolling(7).mean().plot(label='7-Day MA', linestyle='--', color='orange')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
