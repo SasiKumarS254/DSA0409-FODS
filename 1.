@@ -1,0 +1,29 @@
+student_scores = [
+    [85, 90, 78, 92],
+    [88, 85, 76, 95],
+    [90, 87, 80, 85],
+    [84, 89, 82, 88]
+]
+
+subjects = ["Math", "Science", "English", "History"]
+num_students = len(student_scores)
+
+transposed = list(zip(*student_scores))
+
+averages = {subj: round(sum(scores)/num_students, 2) for subj, scores in zip(subjects, transposed)}
+
+highest_avg_subject = max(averages, key=averages.get)
+
+top_bottom = {
+    subj: {
+        "Top Scorer (Student {})".format(scores.index(max(scores)) + 1): max(scores),
+        "Lowest Scorer (Student {})".format(scores.index(min(scores)) + 1): min(scores)
+    }
+    for subj, scores in zip(subjects, transposed)
+}
+
+print("Average scores for each subject:", averages)
+print("Subject with the highest average score:", highest_avg_subject)
+print("\nSubject-wise Top and Lowest Scorers:")
+for subj, data in top_bottom.items():
+    print(f"{subj}: {data}")
