@@ -1,0 +1,19 @@
+import pandas as pd, numpy as np
+
+df = pd.read_csv("C:/Users/SasiKumar.S/Downloads/cars_fuel_efficiency.csv")
+
+eff = df["FuelEfficiency"].to_numpy()
+models = df["Model"].to_numpy()
+avg = round(eff.mean(), 2)
+top3_idx = eff.argsort()[-3:][::-1]
+
+df["Status"] = ["Top" if i in top3_idx else "Normal" for i in range(len(df))]
+df["EfficiencyDiff"] = np.round(eff - avg, 2)
+
+print(f"Average Fuel Efficiency: {avg} MPG\n")
+print("Top 3 Most Fuel-Efficient Models:")
+for i in top3_idx:
+    print(f"{models[i]} - {eff[i]} MPG")
+
+print("\nDataset with Status and Efficiency Difference:\n")
+print(df)
