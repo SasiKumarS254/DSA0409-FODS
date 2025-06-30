@@ -1,0 +1,17 @@
+import pandas as pd
+from datetime import datetime, timedelta
+
+df = pd.DataFrame({
+    'id': [1, 2, 3, 4, 5, 6, 7],
+    'age': [25, 30, 25, 40, 35, 30, 25],
+    'date': [datetime.now() - timedelta(days=d) for d in [5, 10, 20, 40, 2, 15, 3]]
+})
+
+recent = df[df['date'] >= datetime.now() - pd.DateOffset(days=30)]
+age_dist = recent['age'].value_counts().sort_index()
+most_common_age = age_dist.idxmax()
+
+print("Recent Purchases (Last 30 Days):")
+print(recent)
+print("\nAge Distribution:\n", age_dist)
+print(f"\nMost Active Age Group: {most_common_age}")
