@@ -1,0 +1,24 @@
+import pandas as pd, matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+
+df = pd.DataFrame({
+    'id': range(1, 11),
+    'spent': [250, 300, 400, 150, 500, 100, 600, 700, 350, 450],
+    'visits': [5, 6, 8, 3, 10, 2, 12, 14, 7, 9]
+})
+
+X = StandardScaler().fit_transform(df[['spent', 'visits']])
+df['cluster'] = KMeans(n_clusters=3, n_init='auto', random_state=42).fit_predict(X)
+
+centers = pd.DataFrame(KMeans(n_clusters=3, n_init='auto', random_state=42).fit(X).cluster_centers_, columns=['spent', 'visits'])
+
+print(df)
+
+plt.figure(figsize=(8,6))
+plt.scatter(df['spent'], df['visits'], c=df['cluster'], cmap='plasma', s=100, edgecolor='k')
+plt.scatter(centers['spent'] * X.std(axis=0)[0] + X.mean(axis=0)[0],
+            centers['visits'] * X.std(axis=0)[1] + X.mean(axis=0)[1],
+            c='black', s=200, marker='X', label='Centers')
+plt.xlabel('Total Spent'), plt.ylabel('Visit Frequency'), plt.title('Customer Segments')
+plt.legend(), plt.grid(True), plt.tight_layout(), plt.show()
