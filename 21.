@@ -1,0 +1,8 @@
+import pandas as pd
+
+df = pd.read_csv("employee_data.csv").dropna(subset=['Department'])
+df['Salary'] = pd.to_numeric(df['Salary'].str.replace(r'[\$,]', '', regex=True), errors='coerce')
+df['First_Name'] = df['Full Name'].str.split().str[0]
+df['Last_Name'] = df['Full Name'].str.split().str[-1]
+df['Department'] = df['Department'].str.title()
+df.to_csv("processed_employee_data.csv", index=False)
