@@ -1,0 +1,16 @@
+import pandas as pd, matplotlib.pyplot as plt
+
+df = pd.DataFrame({
+    'City': ['CityA']*5 + ['CityB']*5 + ['CityC']*5,
+    'Temperature': [22, 24, 23, 21, 25, 30, 35, 32, 33, 31, 15, 16, 14, 13, 17]
+})
+
+stats = df.groupby('City')['Temperature'].agg(['mean', 'std', 'max', 'min'])
+stats['range'] = stats['max'] - stats['min']
+
+print("Summary:\n", stats)
+print("\nCity with Highest Range:", stats['range'].idxmax())
+print("Most Consistent City:", stats['std'].idxmin())
+
+stats[['mean', 'std', 'range']].plot(kind='bar', figsize=(8,5), colormap='coolwarm')
+plt.title('Temperature Stats by City'); plt.ylabel('Value'); plt.tight_layout(); plt.show()
