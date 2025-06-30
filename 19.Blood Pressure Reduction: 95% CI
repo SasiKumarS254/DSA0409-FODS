@@ -1,0 +1,21 @@
+import numpy as np, scipy.stats as stats
+
+np.random.seed(0)
+drug = np.random.normal(12, 5, 25)
+placebo = np.random.normal(4, 4, 25)
+
+def ci(data, conf=0.95):
+    m, s = np.mean(data), stats.sem(data)
+    h = s * stats.t.ppf((1 + conf) / 2, len(data)-1)
+    return (m - h, m + h)
+
+def cohen_d(x, y):
+    return (np.mean(x) - np.mean(y)) / np.sqrt((np.std(x, ddof=1)**2 + np.std(y, ddof=1)**2) / 2)
+
+print("Drug Mean ± SD:", round(np.mean(drug), 2), "±", round(np.std(drug, ddof=1), 2))
+print("Placebo Mean ± SD:", round(np.mean(placebo), 2), "±", round(np.std(placebo, ddof=1), 2))
+print("95% CI (Drug):", ci(drug))
+print("95% CI (Placebo):", ci(placebo))
+print("Cohen's d:", round(cohen_d(drug, placebo), 2))
+t, p = stats.ttest_ind(drug, placebo)
+print("t-test: t =", round(t, 2), ", p =", round(p, 4))
