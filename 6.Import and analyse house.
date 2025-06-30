@@ -1,0 +1,14 @@
+import pandas as pd, numpy as np
+
+df = pd.read_csv("C:/Users/Sasi Kumar.S/Downloads/houses.csv")
+data = df.to_numpy()
+
+pps = np.round(data[:, 2] / data[:, 1], 2)
+df["PricePerSqft"] = pps
+df["Category"] = np.where(data[:, 0] > 3, "Large", "Standard")
+best_value = df.iloc[pps.argmin()]
+
+print("Price per sqft for each house:", list(pps))
+print("Number of houses with >3 bedrooms:", (df["Category"] == "Large").sum())
+print("Best value house:\n", best_value)
+print("\nUpdated dataset:\n", df)
