@@ -1,0 +1,14 @@
+import numpy as np
+
+data = np.array([250000, 275000, 300000, 350000])
+total = data.sum()
+pct_inc = round((data[-1] - data[0]) / data[0] * 100, 2)
+q_high, q_low = data.argmax() + 1, data.argmin() + 1
+avg_grow = round(np.diff(data).mean(), 2)
+trend = "↑" if avg_grow > 0 else "↓"
+
+print(f"Total Sales: ₹{total}")
+print(f"Q1 to Q4 Increase: {pct_inc}%")
+print(f"Highest Sales: Q{q_high}, Lowest Sales: Q{q_low}")
+print(f"Avg Quarterly Growth: ₹{avg_grow} {trend}")
+print("Quarterly Sales:", dict(zip([f"Q{i+1}" for i in range(4)], data)))
