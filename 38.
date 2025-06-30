@@ -1,0 +1,20 @@
+import numpy as np
+
+data = np.array([
+    [3, 2000, 350000],
+    [4, 2500, 450000],
+    [2, 1800, 300000],
+    [3, 2200, 375000]
+])
+
+avg_price = round(data[:, 2].mean(), 2)
+max_sqft = data[np.argmax(data[:, 1])]
+min_price = data[np.argmin(data[:, 2])]
+high_bed = data[data[:, 0] > 3]
+price_per_sqft = np.round(data[:, 2] / data[:, 1], 2)
+
+print("Average Price:", avg_price)
+print("House with Max Sqft:", max_sqft)
+print("House with Min Price:", min_price)
+print("Houses with >3 Bedrooms:\n", high_bed)
+print("Price per Sqft for each house:", price_per_sqft)
