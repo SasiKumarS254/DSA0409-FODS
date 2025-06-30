@@ -1,0 +1,21 @@
+import pandas as pd
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+
+df = pd.DataFrame({
+    'annual_spending': [500, 700, 200, 1000, 300, 1200, 400, 250, 950, 1100],
+    'visits_per_month': [2, 3, 1, 5, 1, 6, 2, 1, 4, 5]
+})
+
+X = StandardScaler().fit_transform(df)
+model = KMeans(n_clusters=3, random_state=42).fit(X)
+print(f"Model Inertia: {model.inertia_:.2f}")
+
+try:
+    s = float(input("Enter annual spending: "))
+    v = float(input("Enter visits/month: "))
+except:
+    s, v = 600, 3
+
+seg = model.predict(StandardScaler().fit(df).transform([[s, v]]))[0]
+print("Customer Segment:", seg)
