@@ -1,0 +1,13 @@
+import pandas as pd, matplotlib.pyplot as plt
+
+df = pd.read_csv('post_likes_data.csv')
+counts = df['Likes'].value_counts().sort_index()
+
+plt.figure(figsize=(8, 5))
+counts.plot.bar(color='coral', edgecolor='black')
+plt.title(f'Likes Distribution | Total Posts: {len(df)}')
+plt.xlabel('Likes'), plt.ylabel('Frequency')
+plt.xticks(rotation=0)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
