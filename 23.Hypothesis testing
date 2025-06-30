@@ -1,0 +1,21 @@
+import matplotlib.pyplot as plt
+from scipy.stats import ttest_ind
+
+control = [65, 70, 68, 72, 66, 69, 71]
+treatment = [75, 80, 78, 79, 77, 76, 82]
+t_stat, p_val = ttest_ind(treatment, control)
+
+data = [control, treatment]
+labels = ["Control", "Treatment"]
+means = [sum(d)/len(d) for d in data]
+
+plt.figure(figsize=(6, 4))
+plt.boxplot(data, labels=labels, patch_artist=True,
+            boxprops=dict(facecolor='lightblue'),
+            medianprops=dict(color='black'))
+plt.scatter([1, 2], means, color='red', label='Mean', zorder=3)
+plt.title(f"T-Test P-value: {p_val:.4f}")
+plt.ylabel("Effectiveness Score")
+plt.legend()
+plt.tight_layout()
+plt.show()
