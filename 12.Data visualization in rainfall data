@@ -1,0 +1,29 @@
+import pandas as pd, matplotlib.pyplot as plt
+
+df = pd.DataFrame({
+    'Month': ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+              'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    'Temp': [15, 17, 20, 24, 28, 30, 29, 28, 26, 22, 18, 16],
+    'Rain': [78, 60, 55, 42, 35, 90, 120, 110, 85, 70, 80, 75]
+})
+
+fig, axs = plt.subplots(2, 1, figsize=(10, 10))
+
+axs[0].plot(df['Month'], df['Temp'], 'o-r', label='Temp (°C)')
+axs[0].plot(df['Month'], df['Rain'], 's-b', label='Rain (mm)')
+axs[0].set_title('Monthly Temp & Rainfall')
+axs[0].legend()
+axs[0].grid(True)
+
+axs[1].scatter(df['Temp'], df['Rain'], c='purple')
+axs[1].set_title('Temp vs Rainfall')
+axs[1].set_xlabel('Temp (°C)')
+axs[1].set_ylabel('Rainfall (mm)')
+axs[1].grid(True)
+
+hottest = df.loc[df['Temp'].idxmax()]
+wettest = df.loc[df['Rain'].idxmax()]
+fig.suptitle(f"Hottest: {hottest['Month']} ({hottest['Temp']}°C), Wettest: {wettest['Month']} ({wettest['Rain']} mm)", fontsize=11)
+
+plt.tight_layout(rect=[0, 0, 1, 0.95])
+plt.show()
