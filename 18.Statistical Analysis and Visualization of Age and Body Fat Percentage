@@ -1,0 +1,29 @@
+import pandas as pd, numpy as np, matplotlib.pyplot as plt, seaborn as sns, scipy.stats as stats
+
+df = pd.DataFrame({
+    'Age': [23, 23, 27, 27, 39, 41, 47, 49, 50, 52, 54, 54, 56, 57, 58, 58, 60, 61],
+    '%Fat': [9.5, 26.5, 7.8, 17.8, 31.4, 25.9, 27.4, 27.2, 31.2, 34.6, 42.5, 28.8, 33.4, 30.2, 34.1, 32.9, 41.2, 35.7]
+})
+
+print("Summary Stats:\n", df.agg(['mean', 'median', 'std']).T, "\n")
+print("Correlation:\n", df.corr(), "\n")
+
+fig, axs = plt.subplots(2, 2, figsize=(12, 8))
+sns.boxplot(y=df['Age'], ax=axs[0,0])
+sns.boxplot(y=df['%Fat'], ax=axs[0,1])
+sns.violinplot(x='Age', y='%Fat', data=df, ax=axs[1,0])
+sns.scatterplot(x='Age', y='%Fat', data=df, ax=axs[1,1])
+axs[0,0].set_title('Boxplot: Age')
+axs[0,1].set_title('Boxplot: %Fat')
+axs[1,0].set_title('Violin: Age vs %Fat')
+axs[1,1].set_title('Scatter: Age vs %Fat')
+plt.tight_layout()
+plt.show()
+
+fig, axs = plt.subplots(1, 2, figsize=(10, 4))
+stats.probplot(df['Age'], dist="norm", plot=axs[0])
+stats.probplot(df['%Fat'], dist="norm", plot=axs[1])
+axs[0].set_title('Q-Q Plot: Age')
+axs[1].set_title('Q-Q Plot: %Fat')
+plt.tight_layout()
+plt.show()
