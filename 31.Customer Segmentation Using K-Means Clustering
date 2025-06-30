@@ -1,0 +1,26 @@
+import pandas as pd
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.DataFrame({
+    'age': [25, 45, 23, 35, 65, 33, 31, 50, 40, 29],
+    'income': [50000, 80000, 32000, 60000, 100000, 58000, 62000, 85000, 72000, 54000],
+    'score': [30, 70, 40, 60, 20, 65, 59, 80, 75, 50]
+})
+
+scaled = StandardScaler().fit_transform(df)
+df['segment'] = KMeans(n_clusters=3, n_init='auto', random_state=42).fit_predict(scaled)
+
+pca = PCA(n_components=2).fit_transform(scaled)
+df[['PCA1', 'PCA2']] = pca
+
+plt.figure(figsize=(8,6))
+sns.scatterplot(data=df, x='PCA1', y='PCA2', hue='segment', palette='Set2', s=120)
+plt.title("Customer Segmentation via PCA")
+plt.grid(True)
+plt.show()
+
+print(df.sort_values('segment'))
