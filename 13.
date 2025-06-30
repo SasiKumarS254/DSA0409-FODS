@@ -1,0 +1,13 @@
+from collections import Counter
+import string
+
+text = open("sample_text.txt").read()
+words = text.lower().translate(str.maketrans('', '', string.punctuation)).split()
+counts = Counter(words)
+
+print(f"Total Words: {len(words)}")
+print(f"Unique Words: {len(counts)}")
+print(f"Spaces: {text.count(' ')}\n")
+print("Top 10 Frequent Words:")
+for w, c in counts.most_common(10):
+    print(f"{w}: {c}")
