@@ -1,0 +1,21 @@
+import numpy as np
+
+sales_data = np.array([
+    [100, 150, 200],
+    [80, 120, 160],
+    [90, 110, 140]
+])
+
+average_price = np.round(sales_data.mean(), 2)
+max_price = sales_data.max()
+min_price = sales_data.min()
+total_sales = sales_data.sum()
+product_totals = sales_data.sum(axis=0)
+day_totals = sales_data.sum(axis=1)
+
+print("Average Price:", average_price)
+print("Total Sales:", total_sales)
+print("Max Sale:", max_price)
+print("Min Sale:", min_price)
+print("Total by Product:", product_totals)
+print("Total by Day:", day_totals)
