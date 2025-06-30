@@ -1,0 +1,28 @@
+import pandas as pd, matplotlib.pyplot as plt
+
+df = pd.DataFrame({
+    'Name': ['Messi', 'Ronaldo', 'Mbappe', 'Neymar', 'Lewandowski', 'Haaland', 'Modric', 'De Bruyne', 'Salah', 'Benzema'],
+    'Age': [36, 38, 25, 31, 35, 23, 37, 32, 30, 34],
+    'Position': ['Forward']*6 + ['Midfielder']*2 + ['Forward']*2,
+    'Goals': [25, 30, 35, 20, 27, 33, 5, 10, 28, 22],
+    'Salary': [700000, 650000, 600000, 550000, 500000, 580000, 300000, 400000, 450000, 470000]
+})
+
+df.to_csv('players.csv', index=False)
+df = pd.read_csv('players.csv')
+
+avg_age = df['Age'].mean()
+df['Efficiency'] = df['Goals'] / df['Salary'] * 1e5
+
+print("Top 5 by Goals:\n", df.nlargest(5, 'Goals')[['Name', 'Goals']])
+print("\nTop 5 by Salary:\n", df.nlargest(5, 'Salary')[['Name', 'Salary']])
+print(f"\nAverage Age: {avg_age:.2f}")
+print("\nPlayers Above Average Age:\n", df[df['Age'] > avg_age]['Name'].tolist())
+print("\nTop 3 Efficient Scorers:\n", df.nlargest(3, 'Efficiency')[['Name', 'Efficiency']])
+
+pos_counts = df['Position'].value_counts()
+ax = pos_counts.plot(kind='bar', color='lightgreen', figsize=(7,4))
+for i, v in enumerate(pos_counts): ax.text(i, v+0.1, str(v), ha='center')
+plt.title('Players by Position')
+plt.xlabel('Position'); plt.ylabel('Count')
+plt.tight_layout(); plt.show()
