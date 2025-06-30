@@ -1,0 +1,28 @@
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+df = pd.DataFrame({
+    'usage_minutes': [300, 250, 100, 400, 150, 500, 200, 100, 350, 450],
+    'contract_months': [12, 24, 6, 12, 6, 36, 18, 3, 24, 12],
+    'churn': [0, 0, 1, 0, 1, 0, 0, 1, 0, 0]
+})
+
+X, y = df[['usage_minutes', 'contract_months']], df['churn']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+scaler = StandardScaler().fit(X_train)
+X_train_scaled = scaler.transform(X_train)
+model = LogisticRegression().fit(X_train_scaled, y_train)
+
+print(f"Model Accuracy: {model.score(scaler.transform(X_test), y_test)*100:.2f}%")
+
+try:
+    usage = float(input("Enter usage minutes: "))
+    contract = float(input("Enter contract duration (months): "))
+except:
+    usage, contract = 200, 12
+
+pred = model.predict(scaler.transform([[usage, contract]]))[0]
+print("Prediction:", "Churn" if pred else "Not Churn")
