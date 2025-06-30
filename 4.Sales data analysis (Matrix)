@@ -1,0 +1,24 @@
+import numpy as np
+
+data = np.array([
+    [101, 10, 200, 10, 5],
+    [102, 15, 375, 12, 7],
+    [103, 20, 500, 15, 8]
+])
+
+units, revenue, discounts, returns = data[:,1], data[:,2], data[:,3], data[:,4]
+total_units, total_revenue = units.sum(), revenue.sum()
+
+if total_units:
+    avg_price = round(total_revenue / total_units, 2)
+    avg_discount = round(discounts.mean(), 2)
+    avg_return_rate = round((returns.sum() / total_units) * 100, 2)
+    best_selling = data[np.argmax(units)]
+    print(f"Total Units Sold: {total_units}")
+    print(f"Total Revenue: ${total_revenue}")
+    print(f"Average Price: ${avg_price}")
+    print(f"Average Discount: {avg_discount}%")
+    print(f"Return Rate: {avg_return_rate}%")
+    print(f"Best Selling Product: {best_selling}")
+else:
+    print("No units sold this month.")
