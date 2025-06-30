@@ -1,0 +1,27 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import classification_report
+
+df = pd.DataFrame({
+    'age': [25, 30, 45, 50, 35, 60, 55, 40, 65, 70],
+    'gender': ['Male', 'Female', 'Female', 'Male', 'Male', 'Female', 'Male', 'Female', 'Male', 'Female'],
+    'bp': [120, 130, 140, 150, 135, 160, 145, 125, 155, 165],
+    'chol': [200, 220, 250, 260, 230, 270, 240, 210, 280, 290],
+    'outcome': ['Good', 'Good', 'Bad', 'Bad', 'Good', 'Bad', 'Bad', 'Good', 'Bad', 'Bad']
+})
+
+for col in ['gender', 'outcome']:
+    df[col] = LabelEncoder().fit_transform(df[col])
+
+X, y = df.drop('outcome', axis=1), df['outcome']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+model = KNeighborsClassifier(n_neighbors=3).fit(X_train, y_train)
+y_pred = model.predict(X_test)
+
+print(classification_report(y_test, y_pred, target_names=['Bad', 'Good']))
+
+sample = [[45, 1, 138, 245]]
+print("Prediction for sample patient:", ['Bad', 'Good'][model.predict(sample)[0]])
