@@ -1,0 +1,29 @@
+import pandas as pd, re, string, matplotlib.pyplot as plt
+from collections import Counter
+from nltk.corpus import stopwords
+from nltk import download
+
+download('stopwords')
+df = pd.read_csv('data.csv')
+
+text = ' '.join(df['feedback'].astype(str)).lower()
+text = text.translate(str.maketrans('', '', string.punctuation))
+words = re.findall(r'\b\w+\b', text)
+filtered = [w for w in words if w not in set(stopwords.words('english'))]
+
+top_n = 10
+common = Counter(filtered).most_common(top_n)
+
+print(f"Top {top_n} Frequent Words:")
+for w, c in common:
+    print(f"{w}: {c}")
+
+x, y = zip(*common)
+plt.figure(figsize=(10, 5))
+plt.bar(x, y, color='coral')
+plt.title(f"Top {top_n} Words in Feedback")
+plt.xlabel("Words")
+plt.ylabel("Count")
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
