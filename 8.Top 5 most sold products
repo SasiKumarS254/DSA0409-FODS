@@ -1,0 +1,13 @@
+import pandas as pd
+
+df = pd.DataFrame({
+    'product': ['Pen', 'Notebook', 'Pen', 'Marker', 'Notebook', 'Eraser', 'Pen', 'Marker', 'Pencil', 'Pen'],
+    'qty': [10, 5, 7, 4, 6, 3, 12, 8, 9, 6]
+})
+
+summary = df.groupby('product')['qty'].agg(['sum', 'mean', 'count']).sort_values('sum', ascending=False)
+summary['rank'] = summary['sum'].rank(method='min', ascending=False).astype(int)
+top5 = summary.head(5)
+
+print("Top 5 Most Sold Products:\n")
+print(top5.reset_index())
