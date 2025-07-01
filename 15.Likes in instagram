@@ -1,4 +1,4 @@
-import pandas as pd, matplotlib.pyplot as plt
+qimport pandas as pd, matplotlib.pyplot as plt
 
 df = pd.read_csv('post_likes_data.csv')
 counts = df['Likes'].value_counts().sort_index()
